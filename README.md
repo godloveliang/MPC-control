@@ -1,6 +1,8 @@
 # Udacity Self-Driving Car Engineer Nanodegree Program
 # *Model Predictive Controller Project*
 
+![equations](imgs/mpc.gif )
+
 ## Intro
 
 This repository contains my solution to the Udacity SDCND MPC Project. The goal of this project is to navigate a track in a Udacity-provided [simulator](https://github.com/udacity/self-driving-car-sim/releases), which communicates telemetry and track waypoint data via websocket, by sending steering and acceleration commands back to the simulator. The solution must be robust to 100ms latency, as one may encounter in real-world application.
@@ -13,7 +15,7 @@ This solution, as the Nanodegree lessons suggest, makes use of the IPOPT and CPP
 
 The kinematic model includes the vehicle's x and y coordinates, orientation angle (psi), and velocity, as well as the cross-track error and psi error (epsi). Actuator outputs are acceleration and delta (steering angle). The model combines the state and actuations from the previous timestep to calculate the state for the current timestep based on the equations below:
 
-![equations](./mpc_model.PNG )
+![equations](imgs/mpc_model.PNG )
 
 - **Timestep Length and Elapsed Duration (N & dt)**: *Student discusses the reasoning behind the chosen N (timestep length) and dt (elapsed duration between timesteps) values. Additionally the student details the previous values tried.*
 
@@ -26,7 +28,6 @@ The waypoints are preprocessed by transforming them to the vehicle's perspective
 - **Model Predictive Control with Latency**: *The student implements Model Predictive Control that handles a 100 millisecond latency. Student provides details on how they deal with latency.*
 
 The approach to dealing with latency was twofold (not counting simply limiting the speed): the original kinematic equations depend upon the actuations from the previous timestep, but with a delay of 100ms (which happens to be the timestep interval) the actuations are applied another timestep later, so the equations have been altered to account for this (MPC.cpp lines 104-107). Also, in addition to the cost functions suggested in the lessons (punishing CTE, epsi, difference between velocity and a reference velocity, delta, acceleration, change in delta, and change in acceleration) an additional cost penalizing the combination of velocity and delta (MPC.cpp line 63) was included and results in much more controlled cornering.
-
 
 ---
 # *Udacity's original README content*
